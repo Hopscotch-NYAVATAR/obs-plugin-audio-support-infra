@@ -23,5 +23,6 @@ resource "google_firebase_hosting_site" "default" {
 }
 
 resource "google_firebase_web_app" "default" {
-  provider = google-beta
+  provider     = google-beta
+  display_name = "Hopscotch Audio Support Web App"
 }
