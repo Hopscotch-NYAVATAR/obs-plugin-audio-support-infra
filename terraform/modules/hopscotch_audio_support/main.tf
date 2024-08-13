@@ -79,7 +79,7 @@ resource "google_project_service" "clouddeploy" {
 
 resource "google_clouddeploy_target" "default_prod" {
   location = var.region
-  name     = "${var.short_name}-prod"
+  name     = "${var.short_name}-default-prod"
   run {
     location = "projects/${var.project_id}/locations/${var.region}"
   }

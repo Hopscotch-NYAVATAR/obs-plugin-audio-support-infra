@@ -2,10 +2,8 @@ apiVersion: "skaffold/v4beta7"
 kind: "Config"
 metadata:
   name: "has-default"
-profiles:
-  - name: "prod"
-    manifests:
-      rawYaml:
-        - "run-service-prod.yaml"
+manifests:
+  rawYaml:
+    - "run-service-prod.yaml"
 deploy:
   cloudrun: {}
