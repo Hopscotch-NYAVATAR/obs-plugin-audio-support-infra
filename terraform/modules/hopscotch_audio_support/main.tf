@@ -14,7 +14,9 @@ resource "google_firebase_project" "default" {
   ]
 }
 
-resource "google_identity_platform_config" "default" {
+resource "google_firebase_web_app" "default" {
+  provider     = google-beta
+  display_name = "Hopscotch Audio Support Web App"
 }
 
 resource "google_firebase_hosting_site" "default" {
@@ -22,7 +24,5 @@ resource "google_firebase_hosting_site" "default" {
   site_id  = var.project_id
 }
 
-resource "google_firebase_web_app" "default" {
-  provider     = google-beta
-  display_name = "Hopscotch Audio Support Web App"
+resource "google_identity_platform_config" "default" {
 }

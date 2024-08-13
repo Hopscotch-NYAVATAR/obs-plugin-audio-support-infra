@@ -31,3 +31,7 @@ terraform init
 terraform plan -input=false -out=tfplan
 terraform apply tfplan
 ```
+
+## OAuth brand screen
+
+https://console.cloud.google.com/apis/credentials/consent?hl=ja&project=obs-plugin-voice-storage
