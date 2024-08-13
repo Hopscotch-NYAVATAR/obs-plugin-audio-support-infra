@@ -39,7 +39,7 @@ resource "google_project_service" "servicecontrol" {
 
 resource "google_api_gateway_api" "default" {
   provider = google-beta
-  api_id   = "default"
+  api_id   = "default-gw"
   depends_on = [
     google_project_service.apigateway,
     google_project_service.servicecontrol
@@ -49,7 +49,7 @@ resource "google_api_gateway_api" "default" {
 resource "google_api_gateway_api_config" "default" {
   provider      = google-beta
   api           = google_api_gateway_api.default.api_id
-  api_config_id = "default"
+  api_config_id = "default-gw"
 
   openapi_documents {
     document {
@@ -68,6 +68,6 @@ resource "google_api_gateway_api_config" "default" {
 resource "google_api_gateway_gateway" "default" {
   provider   = google-beta
   api_config = google_api_gateway_api_config.default.id
-  gateway_id = "default"
+  gateway_id = "default-gw"
   region     = var.region
 }
