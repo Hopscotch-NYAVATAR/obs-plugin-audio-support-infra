@@ -33,11 +33,16 @@ resource "google_project_service" "apigateway" {
   service = "apigateway.googleapis.com"
 }
 
+resource "google_project_service" "servicecontrol" {
+  service = "servicecontrol.googleapis.com"
+}
+
 resource "google_api_gateway_api" "default" {
-  provider   = google-beta
-  api_id     = "default"
+  provider = google-beta
+  api_id   = "default"
   depends_on = [
-    google_project_service.apigateway
+    google_project_service.apigateway,
+    google_project_service.servicecontrol
   ]
 }
 
