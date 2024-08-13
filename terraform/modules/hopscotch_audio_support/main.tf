@@ -13,3 +13,6 @@ resource "google_firebase_project" "default" {
     google_project_service.cloudresourcemanager,
   ]
 }
+
+resource "google_identity_platform_config" "default" {
+}
