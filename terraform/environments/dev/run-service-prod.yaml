@@ -6,4 +6,4 @@ spec:
   template:
     spec:
       containers:
-        - image: "busybox"
+        - image: "has-default"
