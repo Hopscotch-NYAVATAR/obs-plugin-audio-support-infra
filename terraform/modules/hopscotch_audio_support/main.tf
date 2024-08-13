@@ -16,8 +16,3 @@ resource "google_firebase_project" "default" {
 
 resource "google_identity_platform_config" "default" {
 }
-
-resource "google_firebase_hosting_site" "default" {
-  provider = google-beta
-  site_id  = var.project_id
-}
