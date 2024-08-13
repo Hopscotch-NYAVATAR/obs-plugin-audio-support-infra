@@ -1,3 +1,4 @@
+// Firebase
 resource "google_project_service" "firebase" {
   service = "firebase.googleapis.com"
 }
@@ -25,4 +26,35 @@ resource "google_firebase_hosting_site" "default" {
 }
 
 resource "google_identity_platform_config" "default" {
+}
+
+// API Gateway
+resource "google_api_gateway_api" "default" {
+  provider = google-beta
+  api_id   = "default"
+}
+
+resource "google_api_gateway_api_config" "default" {
+  provider      = google-beta
+  api           = google_api_gateway_api.default.api_id
+  api_config_id = "default"
+
+  openapi_documents {
+    document {
+      path = "spec.yaml"
+      contents = base64encode(templatefile("api.yaml", {
+        audioRecordingAccessTokenBackend = "https://example.com"
+      }))
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "google_api_gateway_gateway" "default" {
+  provider   = google-beta
+  api_config = google_api_gateway_api_config.default.id
+  gateway_id = "default"
 }
