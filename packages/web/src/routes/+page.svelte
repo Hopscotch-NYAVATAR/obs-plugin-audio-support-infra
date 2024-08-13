@@ -3,6 +3,10 @@
   import "firebaseui/dist/firebaseui.css"
   import { onMount } from "svelte";
 
+  import { firebaseConfig } from "$lib/firebaseConfig";
+
+  firebase.initializeApp(firebaseConfig);
+
   onMount(async () => {
     const firebaseui = await import("firebaseui");
     const ui = new firebaseui.auth.AuthUI(firebase.auth());
