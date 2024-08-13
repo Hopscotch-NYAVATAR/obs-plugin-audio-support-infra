@@ -23,4 +23,5 @@ resource "google_firebase_hosting_site" "default" {
 }
 
 resource "google_firebase_web_app" "default" {
+  provider = google-beta
 }
