@@ -42,7 +42,7 @@ resource "google_api_gateway_api_config" "default" {
   openapi_documents {
     document {
       path = "spec.yaml"
-      contents = base64encode(templatefile("api.yaml", {
+      contents = base64encode(templatefile("api.yaml.tftpl", {
         audioRecordingAccessTokenBackend = "https://example.com"
       }))
     }
