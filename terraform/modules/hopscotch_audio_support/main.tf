@@ -29,9 +29,16 @@ resource "google_identity_platform_config" "default" {
 }
 
 // API Gateway
+resource "google_project_service" "apigateway" {
+  service = "apigateway.googleapis.com"
+}
+
 resource "google_api_gateway_api" "default" {
-  provider = google-beta
-  api_id   = "default"
+  provider   = google-beta
+  api_id     = "default"
+  depends_on = [
+    google_project_service.apigateway
+  ]
 }
 
 resource "google_api_gateway_api_config" "default" {
