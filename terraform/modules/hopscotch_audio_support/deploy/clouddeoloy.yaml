@@ -1,0 +1,19 @@
+---
+apiVersion: "deploy.cloud.google.com/v1"
+kind: "DeliveryPipeline"
+metadata:
+  name: "has-default-backend"
+description: "Hopscotch Audio Support default backend pipeline"
+serialPipeline:
+  stages:
+    - targetId: "run-hasprod"
+      profiles:
+        - "prod"
+
+---
+apiVersion: "deploy.cloud.google.com/v1"
+kind: "Target"
+metadata:
+  name: "run-hasprod"
+description: "Cloud Run production service"
+  location: "projects/obs-plugin-voice-storage/locations/asia-northeast1"
