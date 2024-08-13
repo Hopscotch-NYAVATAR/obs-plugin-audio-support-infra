@@ -1,0 +1,19 @@
+swagger: "2.0"
+info:
+  title: "hopscotch-audio-support"
+  description: "Hopscotch Audio Support backend"
+  version: "0.1.0"
+schemes:
+  - "https"
+paths:
+  "/audioRecordingAccessToken":
+    post:
+      description: "Obtain access token for audio recording API"
+      operationId: "audioRecordingAccessToken"
+      x-google-backend:
+        address: "${audioRecordingAccessTokenBackend}"
+      responses:
+        200:
+          description: "Success"
+        401:
+          description: "Invalid or revoked ID"
