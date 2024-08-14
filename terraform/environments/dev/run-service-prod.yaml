@@ -8,7 +8,11 @@ spec:
       containers:
         - image: 'has-default'
           env:
-            - name: 'JWT_KMS_VERSION_NAME'
+            - name: 'IAT_ISSUER_URL'
+              value: 'https://has-default-prod-6kscuiwoba-an.a.run.app/indefiniteAccessToken/issue'
+            - name: 'IAT_SIGNING_KMS_VERSION_NAME'
+              value: 'projects/obs-plugin-voice-storage/locations/global/keyRings/has-default/cryptoKeys/has-indefinite-key-signing-20240814/cryptoKeyVersions/1'
+            - name: 'IAT_JWKS_KMS_VERSION_NAMES'
               value: 'projects/obs-plugin-voice-storage/locations/global/keyRings/has-default/cryptoKeys/has-indefinite-key-signing-20240814/cryptoKeyVersions/1'
             - name: 'CORS_ORIGINS'
               value: 'https://obs-plugin-voice-storage.firebaseapp.com http://localhost:5173'

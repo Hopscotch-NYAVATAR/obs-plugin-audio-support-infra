@@ -55,8 +55,8 @@ resource "google_api_gateway_api_config" "default" {
     document {
       path = "spec.yaml"
       contents = base64encode(templatefile("${path.module}/api.yaml.tftpl", {
-        projectID     = var.project_id,
-        runDefaultURL = var.run_default_url
+        projectID         = var.project_id,
+        runDefaultURL     = var.run_default_url
       }))
     }
   }
@@ -140,4 +140,24 @@ resource "google_kms_crypto_key_iam_member" "run_indefinite_key_signing_20240814
   crypto_key_id = google_kms_crypto_key.indefinite_key_signing_20240814.id
   role          = "roles/cloudkms.signer"
   member        = "serviceAccount:${google_service_account.run.email}"
+}
+
+data "google_iam_policy" "kms_indefinite_key_signing_20240814" {
+  binding {
+    role = "roles/cloudkms.signer"
+    members = ["serviceAccount:${google_service_account.run.email}"]
+  }
+  binding {
+    role = "roles/cloudkms.publicKeyViewer"
+    members = ["serviceAccount:${google_service_account.run.email}"]
+  }
+  binding {
+    role = "roles/cloudkms.publicKeyViewer"
+    members = ["serviceAccount:${google_service_account.run.email}"]
+  }
+}
+
+resource "google_kms_crypto_key_iam_policy" "run_indefinite_key_signing_20240814" {
+  crypto_key_id = google_kms_crypto_key.indefinite_key_signing_20240814.id
+  policy_data   = 
 }

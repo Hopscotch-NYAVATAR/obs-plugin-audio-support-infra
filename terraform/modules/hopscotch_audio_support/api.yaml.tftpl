@@ -13,10 +13,17 @@ securityDefinitions:
     x-google-issuer: "https://securetoken.google.com/${projectID}"
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
     x-google-audiences: "${projectID}"
+  indefiniteAccessToken:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "${runDefaultURL}/indefiniteAccessToken/issue"
+    x-google-jwks_uri: "${runDefaultURL}/indefiniteAccessToken/jwks"
+    x-google-audiences: "indefiniteAccessToken"
 x-google-backend:
   address: "${runDefaultURL}"
 paths:
-  "/issueIndefiniteAccessToken":
+  "/indefiniteAccessToken/issue":
     post:
       description: "Obtain indefinite access token for OBS"
       operationId: "issueIndefiniteAccessToken"
