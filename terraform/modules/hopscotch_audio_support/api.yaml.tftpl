@@ -17,7 +17,7 @@ securityDefinitions:
     authorizationUrl: ""
     flow: "implicit"
     type: "oauth2"
-    x-google-issuer: "${runDefaultURL}/indefiniteAccessToken/issue"
+    x-google-issuer: "${runJWKSURL}/indefiniteAccessToken/issue"
     x-google-jwks_uri: "${runDefaultURL}/indefiniteAccessToken/jwks"
     x-google-audiences: "indefiniteAccessToken"
 x-google-backend:

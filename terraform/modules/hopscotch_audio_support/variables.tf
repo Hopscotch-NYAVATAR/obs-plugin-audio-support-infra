@@ -13,6 +13,11 @@ variable "run_default_url" {
   type        = string
 }
 
+variable "run_jwks_url" {
+  description = "Run URL for JWKS backend"
+  type        = string
+}
+
 variable "short_name" {
   description = "Short name of project used for DNS"
   type        = string
