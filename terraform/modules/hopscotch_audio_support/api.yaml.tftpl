@@ -28,7 +28,7 @@ paths:
   '/indefiniteAccessToken/issue':
     post:
       description: 'Issue indefinite access token'
-      operationId: 'issueIndefiniteAccessToken'
+      operationId: 'indefiniteAccessTokenIssue'
       security:
         - firebase: []
       responses:
@@ -50,7 +50,7 @@ paths:
 
     options:
       description: 'Preflight'
-      operationId: 'issueIndefiniteAccessTokenPreflight'
+      operationId: 'indefiniteAccessTokenIssuePreflight'
       responses:
         '204':
           description: 'No Content'
@@ -58,7 +58,7 @@ paths:
   '/indefiniteAccessToken/exchange':
     post:
       description: 'Exchange indefinite access token with custom token'
-      operationId: 'issueIndefiniteAccessToken'
+      operationId: 'indefiniteAccessTokenExchange'
       security:
         - indefiniteAccessToken: []
       responses:
@@ -71,18 +71,6 @@ paths:
                 type: 'string'
         '401':
           description: 'Unauthorized'
-
-  '/audioRecordingAccessToken':
-    post:
-      description: 'Obtain access token for audio recording API'
-      operationId: 'audioRecordingAccessToken'
-      security:
-        - indefiniteAccessToken: []
-      responses:
-        200:
-          description: 'Success'
-        401:
-          description: 'Invalid or revoked ID'
 
   '/audioRecord/uploadDestination/batchIssue':
     post:
