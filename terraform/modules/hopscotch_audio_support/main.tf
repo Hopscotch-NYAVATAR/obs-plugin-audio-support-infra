@@ -105,3 +105,20 @@ resource "google_artifact_registry_repository" "default" {
   description   = "Default repository for Docker image"
   format        = "DOCKER"
 }
+
+resource "google_kms_key_ring" "default" {
+  name     = "${var.short_name}-default"
+  location = "global"
+}
+
+resource "google_kms_crypto_key" "indefinite_key_signing_20240814" {
+  name     = "${var.short_name}-indefinite-key-signing-20240814"
+  key_ring = google_api_gateway_api.default.id
+  purpose  = "ASYMMETRIC_SIGN"
+  version_template {
+    algorithm = "EC_SIGN_P256_SHA256"
+  }
+  lifecycle {
+    prevent_destroy = true
+  }
+}
