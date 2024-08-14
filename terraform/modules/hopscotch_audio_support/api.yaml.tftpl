@@ -25,6 +25,12 @@ paths:
       responses:
         200:
           description: "Success"
+    options:
+      description: "Preflight"
+      operationId: "issueIndefiniteAccessTokenPreflight"
+      responses:
+        "204":
+          description: "Success"
 
   "/audioRecordingAccessToken":
     post:

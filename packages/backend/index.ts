@@ -1,24 +1,35 @@
-import express from "express";
+import express from 'express';
+import cors from 'cors';
 
-import { JWTHeader, JWTPayload, signJWT } from "./jwt";
+import { JWTHeader, JWTPayload, signJWT } from './jwt.js';
 
 const app = express();
 
-app.post("/issueIndefiniteAccessToken", async (_, res) => {
-  const header = {
-    alg: "ES256",
-    typ: "JWT",
-  } satisfies JWTHeader;
+const origin = ['obs-plugin-voice-storage.firebaseapp.com', 'localhost'];
 
-  const payload = {} satisfies JWTPayload;
+app.post(
+	'/issueIndefiniteAccessToken',
+	cors({
+		origin,
+		methods: ['POST'],
+		allowedHeaders: ['Authorization']
+	}),
+	async (_, res) => {
+		const header = {
+			alg: 'ES256',
+			typ: 'JWT'
+		} satisfies JWTHeader;
 
-  const indefiniteAccessToken = await signJWT(header, payload);
+		const payload = {} satisfies JWTPayload;
 
-  res.send(indefiniteAccessToken);
+		const indefiniteAccessToken = await signJWT(header, payload);
+
+		res.send(indefiniteAccessToken);
+	}
+);
+
+app.post('/audioRecordingAccessToken', (_, res) => {
+	res.send('{}');
 });
 
-app.post("/audioRecordingAccessToken", (_, res) => {
-  res.send("{}");
-});
-
-app.listen(process.env["PORT"] ?? 3000);
+app.listen(process.env['PORT'] ?? 3000);
