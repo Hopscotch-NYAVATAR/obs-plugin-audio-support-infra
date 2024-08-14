@@ -103,15 +103,23 @@ resource "google_clouddeploy_target" "jwks_prod" {
   ]
 }
 
+resource "google_clouddeploy_target" "prod" {
+  location = var.region
+  name     = "${var.short_name}-prod"
+  multi_target {
+    target_ids = [
+      google_clouddeploy_target.default_prod.name,
+      google_clouddeploy_target.jwks_prod.name,
+    ]
+  }
+}
+
 resource "google_clouddeploy_delivery_pipeline" "default" {
   location = var.region
   name = "${var.short_name}-default"
   serial_pipeline {
     stages {
-      target_id = google_clouddeploy_target.default_prod.name
-    }
-    stages {
-      target_id = google_clouddeploy_target.jwks_prod.name
+      target_id = google_clouddeploy_target.prod.name
     }
   }
 }
