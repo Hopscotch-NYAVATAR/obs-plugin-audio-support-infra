@@ -106,13 +106,17 @@ resource "google_artifact_registry_repository" "default" {
   format        = "DOCKER"
 }
 
+resource "google_project_service" "cloudkms" {
+  service = "cloudkms.googleapis.com"
+}
+
 resource "google_kms_key_ring" "default" {
   name     = "${var.short_name}-default"
   location = "global"
-}
 
-resource "google_project_service" "cloudkms" {
-  service = "cloudkms.googleapis.com"
+  depends_on = [
+    google_project_service.cloudkms
+  ]
 }
 
 resource "google_kms_crypto_key" "indefinite_key_signing_20240814" {
@@ -125,8 +129,4 @@ resource "google_kms_crypto_key" "indefinite_key_signing_20240814" {
   lifecycle {
     prevent_destroy = true
   }
-
-  depends_on = [
-    google_project_service.cloudkms
-  ]
 }
