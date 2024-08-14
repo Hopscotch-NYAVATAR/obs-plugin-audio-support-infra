@@ -159,5 +159,5 @@ data "google_iam_policy" "kms_indefinite_key_signing_20240814" {
 
 resource "google_kms_crypto_key_iam_policy" "run_indefinite_key_signing_20240814" {
   crypto_key_id = google_kms_crypto_key.indefinite_key_signing_20240814.id
-  policy_data   = 
+  policy_data   = data.google_iam_policy.kms_indefinite_key_signing_20240814.policy_data
 }
