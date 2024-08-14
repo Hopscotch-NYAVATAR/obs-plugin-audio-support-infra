@@ -47,13 +47,6 @@ export function encodeBase64URL(buffer: Buffer) {
 	return buffer.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=*$/, '');
 }
 
-export interface JWTHeader {
-	readonly alg: 'ES256';
-	readonly typ: 'JWT';
-}
-
-export interface JWTPayload {}
-
 export async function signJWT(kmsVersionName: string, content: string): Promise<string> {
 	const client = new KeyManagementServiceClient();
 
@@ -73,7 +66,7 @@ export async function signJWT(kmsVersionName: string, content: string): Promise<
 		}
 	});
 
-	if (response.name !== JWT_KMS_VERSION_NAME) {
+	if (response.name !== kmsVersionName) {
 		throw new Error('AsymmetricSign: request corrupted in-transit!');
 	}
 

@@ -1,9 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
-import { JWTHeader, JWTPayload, signJWT } from './jwt.js';
 import { readFromEnv } from './env.js';
-import { getJWKS } from './indefiniteAccessToken.js';
+import { generateIndefiniteAccessToken, getJWKS } from './indefiniteAccessToken.js';
 
 const app = express();
 
@@ -24,15 +23,8 @@ app.options(
 );
 
 app.post('/indefiniteAccessToken/issue', cors(), async (_, res) => {
-	const header = {
-		alg: 'ES256',
-		typ: 'JWT'
-	} satisfies JWTHeader;
-
-	const payload = {} satisfies JWTPayload;
-
-	const indefiniteAccessToken = await signJWT(header, payload);
-
+	const uid = 'aaa';
+	const indefiniteAccessToken = await generateIndefiniteAccessToken({ uid });
 	res.send(indefiniteAccessToken);
 });
 
