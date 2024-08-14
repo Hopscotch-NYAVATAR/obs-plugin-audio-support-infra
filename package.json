@@ -1,7 +1,7 @@
 {
 	"name": "hopscotch-audio-support",
 	"version": "0.1.0",
-	"description": "Backend for Hopscotch Audio Support",
+	"description": "Hopscotch Audio Support Infrastructure",
 	"main": "index.js",
 	"scripts": {
 		"lint": "prettier --check . && eslint .",
@@ -19,6 +19,7 @@
 	"homepage": "https://github.com/Hopscotch-NYAVATAR/obs-plugin-audio-support-infra#readme",
 	"private": true,
 	"workspaces": [
+		"packages/backend",
 		"packages/web"
 	],
 	"devDependencies": {

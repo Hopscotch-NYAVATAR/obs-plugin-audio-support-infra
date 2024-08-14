@@ -98,3 +98,10 @@ resource "google_clouddeploy_delivery_pipeline" "default" {
     }
   }
 }
+
+resource "google_artifact_registry_repository" "default" {
+  location      = var.region
+  repository_id = "${var.short_name}-default"
+  description   = "Default repository for Docker image"
+  format        = "DOCKER"
+}
