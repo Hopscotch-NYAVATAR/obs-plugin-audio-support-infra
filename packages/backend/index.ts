@@ -2,10 +2,11 @@ import express from 'express';
 import cors from 'cors';
 
 import { JWTHeader, JWTPayload, signJWT } from './jwt.js';
+import { readFromEnv } from './env.js';
 
 const app = express();
 
-const origin = ['obs-plugin-voice-storage.firebaseapp.com', 'localhost'];
+const origin = readFromEnv("CORS_ORIGINS").split(" ");
 
 app.post(
 	'/issueIndefiniteAccessToken',
