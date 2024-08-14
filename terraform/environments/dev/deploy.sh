@@ -13,7 +13,7 @@ terraform apply tfplan
 )
 
 gcloud deploy releases create \
-  "has-default-$(date +%Y%m%dT%H%M%S)" \
+  "has-default-$(date +%Y%m%dt%H%M%S)" \
   --project=obs-plugin-voice-storage \
   --region=asia-northeast1 \
   --delivery-pipeline=has-default \
