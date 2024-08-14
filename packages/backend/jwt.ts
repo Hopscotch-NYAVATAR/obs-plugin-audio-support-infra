@@ -3,13 +3,9 @@ import { createHash } from 'node:crypto';
 import { KeyManagementServiceClient } from '@google-cloud/kms';
 import CRC32C from 'crc-32/crc32c.js';
 
-import { readFromEnv } from './env.js';
-
-const JWT_KMS_VERSION_NAME = readFromEnv('JWT_KMS_VERSION_NAME');
-
 export function calculateCRC32C(buffer: Buffer) {
-  return CRC32C.buf(buffer) >>> 0
-} 
+	return CRC32C.buf(buffer) >>> 0;
+}
 
 export function derToJOSE(der: Buffer): Buffer {
 	const jose = Buffer.alloc(64);
@@ -47,23 +43,16 @@ export function derToJOSE(der: Buffer): Buffer {
 	return jose;
 }
 
-export function encodeBase64URL(buffer: Buffer) {
+export function encodeBase64URL(buffer: Buffer): string {
 	return buffer.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=*$/, '');
 }
 
-export interface JWTHeader {
-	readonly alg: 'ES256';
-	readonly typ: 'JWT';
+export function decodeBase64URL(str: string): Buffer {
+	return Buffer.from(str.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
 }
 
-export interface JWTPayload {}
-
-export async function signJWT(header: JWTHeader, payload: JWTPayload): Promise<string> {
+export async function signJWT(kmsVersionName: string, content: string): Promise<string> {
 	const client = new KeyManagementServiceClient();
-
-	const headerBytes = Buffer.from(JSON.stringify(header));
-	const payloadBytes = Buffer.from(JSON.stringify(payload));
-	const content = `${encodeBase64URL(headerBytes)}.${encodeBase64URL(payloadBytes)}`;
 
 	const hash = createHash('sha256');
 	hash.update(content);
@@ -72,7 +61,7 @@ export async function signJWT(header: JWTHeader, payload: JWTPayload): Promise<s
 	const digestCrc32c = calculateCRC32C(digest);
 
 	const [response] = await client.asymmetricSign({
-		name: JWT_KMS_VERSION_NAME,
+		name: kmsVersionName,
 		digest: {
 			sha256: digest
 		},
@@ -81,7 +70,7 @@ export async function signJWT(header: JWTHeader, payload: JWTPayload): Promise<s
 		}
 	});
 
-	if (response.name !== JWT_KMS_VERSION_NAME) {
+	if (response.name !== kmsVersionName) {
 		throw new Error('AsymmetricSign: request corrupted in-transit!');
 	}
 

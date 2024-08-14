@@ -1,9 +1,9 @@
 apiVersion: 'skaffold/v4beta7'
 kind: 'Config'
 metadata:
-  name: 'has-default'
+  name: 'has-jwks'
 manifests:
   rawYaml:
-    - 'run-service-prod.yaml'
+    - 'run-service-jwks-prod.yaml'
 deploy:
   cloudrun: {}

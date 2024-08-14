@@ -18,9 +18,9 @@
 	async function handleGenerateURLForOBS() {
 		const token = await user.getIdToken();
 		const response = await fetch(
-			'https://has-3jd67qj8.an.gateway.dev/issueIndefiniteAccessToken',
+			'https://has-3jd67qj8.an.gateway.dev/indefiniteAccessToken/issue',
 			{
-                method: 'POST',
+				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${token}`
 				}

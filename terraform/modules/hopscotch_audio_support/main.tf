@@ -56,6 +56,7 @@ resource "google_api_gateway_api_config" "default" {
       path = "spec.yaml"
       contents = base64encode(templatefile("${path.module}/api.yaml.tftpl", {
         projectID     = var.project_id,
+        runJWKSURL    = var.run_jwks_url
         runDefaultURL = var.run_default_url
       }))
     }
@@ -100,6 +101,28 @@ resource "google_clouddeploy_delivery_pipeline" "default" {
   }
 }
 
+resource "google_clouddeploy_target" "jwks_prod" {
+  location = var.region
+  name     = "${var.short_name}-jwks-prod"
+  run {
+    location = "projects/${var.project_id}/locations/${var.region}"
+  }
+
+  depends_on = [
+    google_project_service.clouddeploy
+  ]
+}
+
+resource "google_clouddeploy_delivery_pipeline" "jwks" {
+  location = var.region
+  name     = "${var.short_name}-jwks"
+  serial_pipeline {
+    stages {
+      target_id = google_clouddeploy_target.jwks_prod.name
+    }
+  }
+}
+
 resource "google_artifact_registry_repository" "default" {
   location      = var.region
   repository_id = "${var.short_name}-default"
@@ -140,4 +163,24 @@ resource "google_kms_crypto_key_iam_member" "run_indefinite_key_signing_20240814
   crypto_key_id = google_kms_crypto_key.indefinite_key_signing_20240814.id
   role          = "roles/cloudkms.signer"
   member        = "serviceAccount:${google_service_account.run.email}"
+}
+
+data "google_iam_policy" "kms_indefinite_key_signing_20240814" {
+  binding {
+    role = "roles/cloudkms.signer"
+    members = ["serviceAccount:${google_service_account.run.email}"]
+  }
+  binding {
+    role = "roles/cloudkms.publicKeyViewer"
+    members = ["serviceAccount:${google_service_account.run.email}"]
+  }
+  binding {
+    role = "roles/cloudkms.publicKeyViewer"
+    members = ["serviceAccount:${google_service_account.run.email}"]
+  }
+}
+
+resource "google_kms_crypto_key_iam_policy" "run_indefinite_key_signing_20240814" {
+  crypto_key_id = google_kms_crypto_key.indefinite_key_signing_20240814.id
+  policy_data   = data.google_iam_policy.kms_indefinite_key_signing_20240814.policy_data
 }

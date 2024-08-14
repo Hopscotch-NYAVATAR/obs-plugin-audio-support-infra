@@ -17,4 +17,13 @@ gcloud deploy releases create \
   --project=obs-plugin-voice-storage \
   --region=asia-northeast1 \
   --delivery-pipeline=has-default \
-  --images=has-default=asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default
+  --images=has-default=asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default \
+  --skaffold-file=skaffold-default.yaml
+
+gcloud deploy releases create \
+  "has-default-$(date +%Y%m%dt%H%M%S)" \
+  --project=obs-plugin-voice-storage \
+  --region=asia-northeast1 \
+  --delivery-pipeline=has-jwks \
+  --images=has-default=asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default \
+  --skaffold-file=skaffold-jwks.yaml

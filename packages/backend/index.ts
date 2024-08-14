@@ -1,15 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 
-import { JWTHeader, JWTPayload, signJWT } from './jwt.js';
 import { readFromEnv } from './env.js';
+import { generateIndefiniteAccessToken } from './indefiniteAccessToken.js';
+import { decodeBase64URL } from './jwt.js';
 
 const app = express();
 
 const origin = readFromEnv('CORS_ORIGINS').split(' ');
 
 app.options(
-	'/issueIndefiniteAccessToken',
+	'/indefiniteAccessToken/issue',
 	cors({
 		origin,
 		methods: ['POST'],
@@ -17,16 +18,21 @@ app.options(
 	})
 );
 
-app.post('/issueIndefiniteAccessToken', cors(), async (_, res) => {
-	const header = {
-		alg: 'ES256',
-		typ: 'JWT'
-	} satisfies JWTHeader;
+app.post('/indefiniteAccessToken/issue', cors(), async (req, res) => {
+	const userInfo = req.get('X-Apigateway-Api-Userinfo');
+	if (!userInfo) {
+		throw new Error('Authorization info is invalid!');
+	}
 
-	const payload = {} satisfies JWTPayload;
+	const payloadBytes = decodeBase64URL(userInfo);
+	const payload = JSON.parse(payloadBytes.toString('utf-8'));
 
-	const indefiniteAccessToken = await signJWT(header, payload);
+	const sub = payload.sub;
+	if (!sub) {
+		throw new Error('Authorization info is invalid!');
+	}
 
+	const indefiniteAccessToken = await generateIndefiniteAccessToken({ sub });
 	res.send(indefiniteAccessToken);
 });
 
