@@ -20,6 +20,7 @@
 		const response = await fetch(
 			'https://has-3jd67qj8.an.gateway.dev/issueIndefiniteAccessToken',
 			{
+                method: 'POST',
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
