@@ -1,4 +1,5 @@
 import { getAuth } from 'firebase-admin/auth';
+import { initializeApp } from 'firebase-admin/app';
 import { Storage } from '@google-cloud/storage';
 import express from 'express';
 
@@ -6,7 +7,6 @@ import { readFromEnv } from './lib/env.js';
 import { registerAudioRecordUploadDestinationBatchIssue } from './handlers/audioRecord/uploadDestinationBatchIssue.js';
 import { registerIndefiniteAccessTokenExchange } from './handlers/indefiniteAccessToken/exchange.js';
 import { registerIndefiniteAccessTokenIssue } from './handlers/indefiniteAccessToken/issue.js';
-import { initializeApp } from 'firebase-admin';
 
 const origin = readFromEnv('CORS_ORIGINS').split(' ');
 const BASE_URL = readFromEnv('BASE_URL');
