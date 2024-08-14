@@ -6,6 +6,16 @@ info:
 schemes:
   - "https"
 paths:
+  "/issueIndefiniteAccessToken":
+    post:
+      description: "Obtain indefinite access token for OBS"
+      operationId: "issueIndefiniteAccessToken"
+      x-google-backend:
+        address: "${runDefaultURL}/issueIndefiniteAccessToken"
+      responses:
+        200:
+          description: "Success"
+
   "/audioRecordingAccessToken":
     post:
       description: "Obtain access token for audio recording API"
