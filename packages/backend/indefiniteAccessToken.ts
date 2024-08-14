@@ -1,13 +1,8 @@
-import { createPublicKey } from 'node:crypto';
-
-import { KeyManagementServiceClient } from '@google-cloud/kms';
-
 import { readFromEnv } from './env.js';
-import { calculateCRC32C, encodeBase64URL, signJWT } from './jwt.js';
+import { encodeBase64URL, signJWT } from './jwt.js';
 
 const IAT_ISSUER_URL = readFromEnv('IAT_ISSUER_URL');
 const IAT_SIGNING_KMS_VERSION_NAME = readFromEnv('IAT_SIGNING_KMS_VERSION_NAME');
-const jwksVersionNames = readFromEnv('IAT_JWKS_KMS_VERSION_NAMES').split(' ');
 
 interface GenerateIndefiniteAccessTokenParams {
 	readonly sub: string;
