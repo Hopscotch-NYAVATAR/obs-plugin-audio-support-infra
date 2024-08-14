@@ -130,3 +130,13 @@ resource "google_kms_crypto_key" "indefinite_key_signing_20240814" {
     prevent_destroy = true
   }
 }
+
+resource "google_service_account" "run" {
+  account_id = "${var.short_name}-run"
+}
+
+resource "google_kms_crypto_key_iam_member" "run_indefinite_key_signing_20240814" {
+  crypto_key_id = google_kms_crypto_key.indefinite_key_signing_20240814.id
+  role          = "roles/cloudkms.signer"
+  member        = "serviceAccount:${google_service_account.run.email}"
+}
