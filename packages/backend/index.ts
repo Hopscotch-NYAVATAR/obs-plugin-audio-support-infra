@@ -17,7 +17,7 @@ app.options(
 	})
 );
 
-app.post('/issueIndefiniteAccessToken', async (_, res) => {
+app.post('/issueIndefiniteAccessToken', cors(), async (_, res) => {
 	const header = {
 		alg: 'ES256',
 		typ: 'JWT'
