@@ -71,3 +71,30 @@ resource "google_api_gateway_gateway" "default" {
   gateway_id = var.short_name
   region     = var.region
 }
+
+// Cloud Run
+resource "google_project_service" "clouddeploy" {
+  service = "clouddeploy.googleapis.com"
+}
+
+resource "google_clouddeploy_target" "default_prod" {
+  location = var.region
+  name     = "${var.short_name}-default-prod"
+  run {
+    location = "projects/${var.project_id}/locations/${var.region}"
+  }
+
+  depends_on = [
+    google_project_service.clouddeploy
+  ]
+}
+
+resource "google_clouddeploy_delivery_pipeline" "default" {
+  location = var.region
+  name = "${var.short_name}-default"
+  serial_pipeline {
+    stages {
+      target_id = google_clouddeploy_target.default_prod.name
+    }
+  }
+}
