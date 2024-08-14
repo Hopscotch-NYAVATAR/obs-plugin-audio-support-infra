@@ -1,21 +1,23 @@
 {
-  "name": "backend",
-  "version": "0.1.0",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc"
-  },
-  "author": "Hopscotch Co., Ltd.",
-  "license": "UNLICENSED",
-  "description": "Backend for Hopscotch Audio Support",
-  "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/fast-crc32c": "^2.0.2",
-    "typescript": "^5.5.4"
-  },
-  "dependencies": {
-    "@google-cloud/kms": "^4.5.0",
-    "express": "^4.19.2",
-    "fast-crc32c": "^2.0.0"
-  }
+	"name": "backend",
+	"version": "0.1.0",
+	"main": "index.js",
+	"scripts": {
+		"build": "tsc"
+	},
+	"author": "Hopscotch Co., Ltd.",
+	"license": "UNLICENSED",
+	"description": "Backend for Hopscotch Audio Support",
+	"devDependencies": {
+		"@types/cors": "^2.8.17",
+		"@types/express": "^4.17.21",
+		"@types/fast-crc32c": "^2.0.2",
+		"typescript": "^5.5.4"
+	},
+	"dependencies": {
+		"@google-cloud/kms": "^4.5.0",
+		"cors": "^2.8.5",
+		"crc-32": "^1.2.2",
+		"express": "^4.19.2"
+	}
 }

@@ -1,24 +1,37 @@
-import express from "express";
+import express from 'express';
+import cors from 'cors';
 
-import { JWTHeader, JWTPayload, signJWT } from "./jwt";
+import { JWTHeader, JWTPayload, signJWT } from './jwt.js';
+import { readFromEnv } from './env.js';
 
 const app = express();
 
-app.post("/issueIndefiniteAccessToken", async (_, res) => {
-  const header = {
-    alg: "ES256",
-    typ: "JWT",
-  } satisfies JWTHeader;
+const origin = readFromEnv('CORS_ORIGINS').split(' ');
 
-  const payload = {} satisfies JWTPayload;
+app.options(
+	'/issueIndefiniteAccessToken',
+	cors({
+		origin,
+		methods: ['POST'],
+		allowedHeaders: ['Authorization']
+	})
+);
 
-  const indefiniteAccessToken = await signJWT(header, payload);
+app.post('/issueIndefiniteAccessToken', cors(), async (_, res) => {
+	const header = {
+		alg: 'ES256',
+		typ: 'JWT'
+	} satisfies JWTHeader;
 
-  res.send(indefiniteAccessToken);
+	const payload = {} satisfies JWTPayload;
+
+	const indefiniteAccessToken = await signJWT(header, payload);
+
+	res.send(indefiniteAccessToken);
 });
 
-app.post("/audioRecordingAccessToken", (_, res) => {
-  res.send("{}");
+app.post('/audioRecordingAccessToken', (_, res) => {
+	res.send('{}');
 });
 
-app.listen(process.env["PORT"] ?? 3000);
+app.listen(process.env['PORT'] ?? 3000);
