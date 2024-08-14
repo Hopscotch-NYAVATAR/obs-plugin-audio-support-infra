@@ -1,77 +1,98 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  title: "has-api"
-  description: "Hopscotch Audio Support backend"
-  version: "0.1.0"
+  title: 'has-api'
+  description: 'Hopscotch Audio Support backend'
+  version: '0.1.0'
 schemes:
-  - "https"
+  - 'https'
+produces:
+  - 'application/json'
 securityDefinitions:
   firebase:
-    authorizationUrl: ""
-    flow: "implicit"
-    type: "oauth2"
-    x-google-issuer: "https://securetoken.google.com/${projectID}"
-    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
-    x-google-audiences: "${projectID}"
+    authorizationUrl: ''
+    flow: 'implicit'
+    type: 'oauth2'
+    x-google-issuer: 'https://securetoken.google.com/${projectID}'
+    x-google-jwks_uri: 'https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com'
+    x-google-audiences: '${projectID}'
   indefiniteAccessToken:
-    authorizationUrl: ""
-    flow: "implicit"
-    type: "oauth2"
-    x-google-issuer: "${runDefaultURL}/indefiniteAccessToken/issue"
-    x-google-jwks_uri: "${runJWKSURL}/indefiniteAccessToken/jwks"
-    x-google-audiences: "indefiniteAccessToken"
+    authorizationUrl: ''
+    flow: 'implicit'
+    type: 'oauth2'
+    x-google-issuer: '${runDefaultURL}/indefiniteAccessToken/issue'
+    x-google-jwks_uri: '${runJWKSURL}/indefiniteAccessToken/jwks'
+    x-google-audiences: 'indefiniteAccessToken'
 x-google-backend:
-  address: "${runDefaultURL}"
+  address: '${runDefaultURL}'
 paths:
-  "/indefiniteAccessToken/issue":
+  '/indefiniteAccessToken/issue':
     post:
-      description: "Obtain indefinite access token for OBS"
-      operationId: "issueIndefiniteAccessToken"
+      description: 'Issue indefinite access token'
+      operationId: 'indefiniteAccessTokenIssue'
       security:
         - firebase: []
       responses:
-        200:
-          description: "Success"
-    options:
-      description: "Preflight"
-      operationId: "issueIndefiniteAccessTokenPreflight"
-      responses:
-        "204":
-          description: "Success"
+        '200':
+          description: 'OK'
+          schema:
+            type: 'object'
+            properties:
+              indefiniteAccessToken:
+                type: 'string'
+              endpoints:
+                type: 'object'
+                properties:
+                  indefiniteAccessTokenExchange:
+                    type: 'string'
+                    format: 'url'
+        '401':
+          description: 'Unauthorized'
 
-  "/audioRecordingAccessToken":
+    options:
+      description: 'Preflight'
+      operationId: 'indefiniteAccessTokenIssuePreflight'
+      responses:
+        '204':
+          description: 'No Content'
+  
+  '/indefiniteAccessToken/exchange':
     post:
-      description: "Obtain access token for audio recording API"
-      operationId: "audioRecordingAccessToken"
+      description: 'Exchange indefinite access token with custom token'
+      operationId: 'indefiniteAccessTokenExchange'
       security:
         - indefiniteAccessToken: []
       responses:
-        200:
-          description: "Success"
-        401:
-          description: "Invalid or revoked ID"
+        '200':
+          description: 'OK'
+          schema:
+            type: 'object'
+            properties:
+              customToken:
+                type: 'string'
+        '401':
+          description: 'Unauthorized'
 
-  "/audioRecord/uploadDestination/batchIssue":
+  '/audioRecord/uploadDestination/batchIssue':
     post:
-      description: "Obtain upload URLs at batch"
-      operationId: "audioRecordUploadDestinationBatchIssue"
+      description: 'Obtain upload URLs at batch'
+      operationId: 'audioRecordUploadDestinationBatchIssue'
       security:
         - firebase: []
       parameters:
-        - in: "query"
-          name: "start"
-          type: "integer"
-        - in: "query"
-          name: "count"
-          type: "integer"
+        - in: 'query'
+          name: 'start'
+          type: 'integer'
+        - in: 'query'
+          name: 'count'
+          type: 'integer'
       responses:
         200:
-          description: "Success"
+          description: 'Success'
           schema:
-            type: "object"
+            type: 'object'
             properties:
               destinations:
-                type: "array"
+                type: 'array'
                 items:
-                  type: "string"
-                  format: "url"
+                  type: 'string'
+                  format: 'url'

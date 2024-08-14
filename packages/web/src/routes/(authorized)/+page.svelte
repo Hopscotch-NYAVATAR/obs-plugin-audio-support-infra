@@ -29,8 +29,8 @@
 		if (!response.ok) {
 			throw new Error('Error!');
 		}
-		const text = await response.text();
-		obsURL = text;
+		const json = await response.json();
+		obsURL = `${json.endpoints.indefiniteAccessTokenExchange}?token=${json.indefiniteAccessToken}`;
 	}
 </script>
 
