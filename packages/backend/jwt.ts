@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 
 import { KeyManagementServiceClient } from '@google-cloud/kms';
-import crc32c from 'fast-crc32c';
+import CRC32 from 'crc-32';
 
 import { readFromEnv } from './env.js';
 
@@ -65,7 +65,7 @@ export async function signJWT(header: JWTHeader, payload: JWTPayload): Promise<s
 	hash.update(content);
 	const digest = hash.digest();
 
-	const digestCrc32c = crc32c.calculate(digest);
+	const digestCrc32c = CRC32.buf(digest);
 
 	const [response] = await client.asymmetricSign({
 		name: JWT_KMS_VERSION_NAME,
@@ -92,7 +92,7 @@ export async function signJWT(header: JWTHeader, payload: JWTPayload): Promise<s
 
 	const signatureBytes = Buffer.from(signature);
 
-	if (crc32c.calculate(signatureBytes) !== Number(signatureCrc32c.value)) {
+	if (CRC32.buf(signatureBytes) !== Number(signatureCrc32c.value)) {
 		throw new Error('AsymmetricSign: request corrupted in-transit!');
 	}
 
