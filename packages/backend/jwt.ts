@@ -43,8 +43,12 @@ export function derToJOSE(der: Buffer): Buffer {
 	return jose;
 }
 
-export function encodeBase64URL(buffer: Buffer) {
+export function encodeBase64URL(buffer: Buffer): string {
 	return buffer.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=*$/, '');
+}
+
+export function decodeBase64URL(str: string): Buffer {
+	return Buffer.from(str.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
 }
 
 export async function signJWT(kmsVersionName: string, content: string): Promise<string> {
