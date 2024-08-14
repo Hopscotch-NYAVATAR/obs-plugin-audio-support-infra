@@ -36,19 +36,38 @@ app.post('/indefiniteAccessToken/issue', cors(), async (req, res) => {
 	res.send(indefiniteAccessToken);
 });
 
-// import { Storage } from "@google-cloud/storage";
-
-// app.post('/audioRecord/uploadDestination/batchIssue', async () => {
-//   const storage = new Storage();
-//   const [url] = await storage.bucket("a").file("name").getSignedUrl({
-//     version: 'v4',
-//     action: 'write',
-//     expires: Date.now() + 60 * 60 * 1000
-//   })
-// });
-
 app.post('/audioRecordingAccessToken', (_, res) => {
 	res.send('{}');
+});
+
+import { Storage } from "@google-cloud/storage";
+
+app.post('/audioRecord/uploadDestination/batchIssue', async (req, res) => {
+  const storage = new Storage();
+
+  const start = Number(req.query['start']);
+  const count = Number(req.query['start']);
+
+  if (start < 0 || start >= 1000000 || count >= 100) {
+    res.status(400).send({
+      error: "Bad request"
+    });
+    throw new Error("Invalid request range!")
+  }
+
+  const urls = [];
+  for (let i = start; i < count; i++) {
+    const [url] = await storage.bucket("a").file("name").getSignedUrl({
+      version: 'v4',
+      action: 'write',
+      expires: Date.now() + 60 * 60 * 1000
+    })
+    urls.push(url);
+  }
+
+  res.send({
+    destinations: urls
+  })
 });
 
 app.listen(process.env['PORT'] ?? 3000);
