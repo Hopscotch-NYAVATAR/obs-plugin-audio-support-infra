@@ -121,7 +121,7 @@ resource "google_kms_key_ring" "default" {
 
 resource "google_kms_crypto_key" "indefinite_key_signing_20240814" {
   name     = "${var.short_name}-indefinite-key-signing-20240814"
-  key_ring = google_api_gateway_api.default.id
+  key_ring = google_kms_key_ring.default.id
   purpose  = "ASYMMETRIC_SIGN"
   version_template {
     algorithm = "EC_SIGN_P256_SHA256"
