@@ -7,7 +7,7 @@ terraform plan -input=false -out=tfplan
 terraform apply tfplan
 
 (
-  cd ../../
+  cd ../../..
   docker build -t asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default .
   docker image push asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default
 )
