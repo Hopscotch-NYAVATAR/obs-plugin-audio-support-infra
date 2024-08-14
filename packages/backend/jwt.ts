@@ -93,7 +93,7 @@ export async function signJWT(header: JWTHeader, payload: JWTPayload): Promise<s
 
   const signatureBytes = Buffer.from(signature)
 
-  if (crc32c.calculate(signatureBytes) !== Number(signatureCrc32c)) {
+  if (crc32c.calculate(signatureBytes) !== Number(signatureCrc32c.value)) {
     throw new Error("AsymmetricSign: request corrupted in-transit!");
   }
 
