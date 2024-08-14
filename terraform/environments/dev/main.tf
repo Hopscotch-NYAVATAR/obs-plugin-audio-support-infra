@@ -4,4 +4,5 @@ module "hopscotch_audio_support" {
   region     = var.region
 
   run_default_url = var.run_default_url
+  run_jwks_url    = var.run_jwks_url
 }
