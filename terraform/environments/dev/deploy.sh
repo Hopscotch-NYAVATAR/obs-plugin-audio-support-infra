@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 terraform init
 terraform plan -input=false -out=tfplan
