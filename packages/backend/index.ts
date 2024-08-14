@@ -32,7 +32,7 @@ app.post('/indefiniteAccessToken/issue', cors(), async (req, res) => {
 	const payloadBytes = decodeBase64URL(userInfo);
 	const payload = JSON.parse(payloadBytes.toString('utf-8'));
 
-	const uid = payload.uid;
+	const uid = payload.user_id;
 	const indefiniteAccessToken = await generateIndefiniteAccessToken({ uid });
 	res.send(indefiniteAccessToken);
 });
