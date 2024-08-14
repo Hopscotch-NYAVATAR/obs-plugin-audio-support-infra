@@ -1,0 +1,13 @@
+apiVersion: 'skaffold/v4beta7'
+kind: 'Config'
+metadata:
+  name: 'has-jwks'
+build:
+  artifacts:
+    - image: 'has-default'
+      context: '../../..'
+manifests:
+  rawYaml:
+    - 'run-service-jwks-prod.yaml'
+deploy:
+  cloudrun: {}

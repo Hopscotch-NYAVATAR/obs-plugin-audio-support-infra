@@ -6,20 +6,16 @@ terraform init
 terraform plan -input=false -out=tfplan
 terraform apply tfplan
 
-(
-  cd ../../..
-  docker build -t asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default .
-  docker image push asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default
-)
-
 gcloud deploy releases create \
   "has-default-$(date +%Y%m%dt%H%M%S)" \
   --project=obs-plugin-voice-storage \
   --region=asia-northeast1 \
   --delivery-pipeline=has-default \
-  --images=has-default=asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default
+  --skaffold-file=skaffold-default.yaml
 
-gcloud run services add-iam-policy-binding has-jwks-prod \
-  --region asia-northeast1 \
-  --member allUsers \
-  --role roles/run.invoker
+gcloud deploy releases create \
+  "has-default-$(date +%Y%m%dt%H%M%S)" \
+  --project=obs-plugin-voice-storage \
+  --region=asia-northeast1 \
+  --delivery-pipeline=has-jwks \
+  --skaffold-file=skaffold-jwks.yaml

@@ -91,6 +91,16 @@ resource "google_clouddeploy_target" "default_prod" {
   ]
 }
 
+resource "google_clouddeploy_delivery_pipeline" "default" {
+  location = var.region
+  name = var.short_name
+  serial_pipeline {
+    stages {
+      target_id = google_clouddeploy_target.default_prod.name
+    }
+  }
+}
+
 resource "google_clouddeploy_target" "jwks_prod" {
   location = var.region
   name     = "${var.short_name}-jwks-prod"
@@ -103,27 +113,12 @@ resource "google_clouddeploy_target" "jwks_prod" {
   ]
 }
 
-resource "google_clouddeploy_target" "prod" {
+resource "google_clouddeploy_delivery_pipeline" "jwks" {
   location = var.region
-  name     = "${var.short_name}-prod"
-  multi_target {
-    target_ids = [
-      google_clouddeploy_target.default_prod.name,
-      google_clouddeploy_target.jwks_prod.name,
-    ]
-  }
-}
-
-resource "google_clouddeploy_delivery_pipeline" "default" {
-  location = var.region
-  name = var.short_name
+  name     = "${var.short_name}-jwks"
   serial_pipeline {
     stages {
-      target_id = google_clouddeploy_target.prod.name
-      profiles = [
-        "has-default-prod",
-        "has-jwks-prod",
-      ]
+      target_id = google_clouddeploy_target.jwks_prod.name
     }
   }
 }
