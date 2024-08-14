@@ -12,6 +12,8 @@ paths:
     post:
       description: "Obtain indefinite access token for OBS"
       operationId: "issueIndefiniteAccessToken"
+      security:
+        - firebase: []
       responses:
         200:
           description: "Success"
