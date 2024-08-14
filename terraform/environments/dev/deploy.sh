@@ -4,7 +4,7 @@ set -euo pipefail
 
 terraform init
 terraform plan -input=false -out=tfplan
-terraform apploy tfplan
+terraform apply tfplan
 
 (
   cd ../../
