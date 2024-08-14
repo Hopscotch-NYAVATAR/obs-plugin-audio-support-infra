@@ -111,6 +111,10 @@ resource "google_kms_key_ring" "default" {
   location = "global"
 }
 
+resource "google_project_service" "cloudkms" {
+  service = "cloudkms.googleapis.com"
+}
+
 resource "google_kms_crypto_key" "indefinite_key_signing_20240814" {
   name     = "${var.short_name}-indefinite-key-signing-20240814"
   key_ring = google_api_gateway_api.default.id
@@ -121,4 +125,8 @@ resource "google_kms_crypto_key" "indefinite_key_signing_20240814" {
   lifecycle {
     prevent_destroy = true
   }
+
+  depends_on = [
+    google_project_service.cloudkms
+  ]
 }
