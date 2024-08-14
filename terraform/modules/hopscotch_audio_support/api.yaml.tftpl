@@ -50,3 +50,28 @@ paths:
           description: "Success"
         401:
           description: "Invalid or revoked ID"
+
+  "/audioRecord/uploadDestination/batchIssue":
+    post:
+      description: "Obtain upload URLs at batch"
+      operationId: "audioRecordUploadDestinationBatchIssue"
+      security:
+        - firebase: []
+      parameters:
+        - in: "query"
+          name: "start"
+          type: "integer"
+        - in: "query"
+          name: "count"
+          type: "integer"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "object"
+            properties:
+              destinations:
+                type: "array"
+                items:
+                  type: "string"
+                  format: "url"

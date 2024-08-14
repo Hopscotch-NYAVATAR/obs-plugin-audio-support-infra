@@ -14,4 +14,6 @@ spec:
               value: 'projects/obs-plugin-voice-storage/locations/global/keyRings/has-default/cryptoKeys/has-indefinite-key-signing-20240814/cryptoKeyVersions/1'
             - name: 'CORS_ORIGINS'
               value: 'https://obs-plugin-voice-storage.firebaseapp.com http://localhost:5173'
+            - name: 'AR_BUCKET_NAME'
+              value: 'audiorecord-obs-plugin-voice-storage'
       serviceAccountName: 'has-run@obs-plugin-voice-storage.iam.gserviceaccount.com'

@@ -184,3 +184,46 @@ resource "google_kms_crypto_key_iam_policy" "run_indefinite_key_signing_20240814
   crypto_key_id = google_kms_crypto_key.indefinite_key_signing_20240814.id
   policy_data   = data.google_iam_policy.kms_indefinite_key_signing_20240814.policy_data
 }
+
+resource "google_storage_bucket" "audiorecord" {
+  name     = "audiorecord-${var.project_id}"
+  location = var.region
+
+  uniform_bucket_level_access = true
+  public_access_prevention    = "enforced"
+}
+
+data "google_iam_policy" "storage_audiorecord" {
+  binding {
+    role = "roles/storage.objectUser"
+    members = [
+      "serviceAccount:${google_service_account.run.email}"
+    ]
+  }
+
+  binding {
+    role = "roles/storage.admin"
+    members = [
+      "projectEditor:${var.project_id}",
+      "projectOwner:${var.project_id}",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.objectViewer"
+    members = [
+      "projectViewer:${var.project_id}",
+    ]
+  }
+}
+
+resource "google_storage_bucket_iam_policy" "audiorecord" {
+  bucket = google_storage_bucket.audiorecord.name
+  policy_data = data.google_iam_policy.storage_audiorecord.policy_data
+}
+
+resource "google_service_account_iam_member" "run_serviceaccounttokencreator" {
+  service_account_id = google_service_account.run.name
+  role               = "roles/iam.serviceAccountTokenCreator"
+  member             = "serviceAccount:${google_service_account.run.email}"
+}
