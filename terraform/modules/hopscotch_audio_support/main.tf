@@ -90,12 +90,27 @@ resource "google_clouddeploy_target" "default_prod" {
   ]
 }
 
+resource "google_clouddeploy_target" "jwks_prod" {
+  location = var.region
+  name     = "${var.short_name}-jwks-prod"
+  run {
+    location = "projects/${var.project_id}/locations/${var.region}"
+  }
+
+  depends_on = [
+    google_project_service.clouddeploy
+  ]
+}
+
 resource "google_clouddeploy_delivery_pipeline" "default" {
   location = var.region
   name = "${var.short_name}-default"
   serial_pipeline {
     stages {
       target_id = google_clouddeploy_target.default_prod.name
+    }
+    stages {
+      target_id = google_clouddeploy_target.jwks_prod.name
     }
   }
 }

@@ -4,6 +4,7 @@ metadata:
   name: 'has-default'
 manifests:
   rawYaml:
-    - 'run-service-prod.yaml'
+    - 'run-service-default-prod.yaml'
+    - 'run-service-jwks-prod.yaml'
 deploy:
   cloudrun: {}

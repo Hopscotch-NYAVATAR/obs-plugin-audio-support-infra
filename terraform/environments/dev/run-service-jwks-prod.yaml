@@ -1,0 +1,13 @@
+apiVersion: 'serving.knative.dev/v1'
+kind: 'Service'
+metadata:
+  name: 'has-jwks-prod'
+spec:
+  template:
+    spec:
+      containers:
+        - image: 'has-default'
+          env:
+            - name: 'IAT_JWKS_KMS_VERSION_NAMES'
+              value: 'projects/obs-plugin-voice-storage/locations/global/keyRings/has-default/cryptoKeys/has-indefinite-key-signing-20240814/cryptoKeyVersions/1'
+      serviceAccountName: 'has-run@obs-plugin-voice-storage.iam.gserviceaccount.com'
