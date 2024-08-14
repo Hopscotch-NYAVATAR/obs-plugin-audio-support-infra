@@ -47,9 +47,9 @@ resource "google_api_gateway_api" "default" {
 }
 
 resource "google_api_gateway_api_config" "default" {
-  provider      = google-beta
-  api           = google_api_gateway_api.default.api_id
-  api_config_id = "${var.short_name}-config"
+  provider             = google-beta
+  api                  = google_api_gateway_api.default.api_id
+  api_config_id_prefix = "${var.short_name}-config"
 
   openapi_documents {
     document {
