@@ -19,4 +19,7 @@ gcloud deploy releases create \
   --delivery-pipeline=has-default \
   --images=has-default=asia-northeast1-docker.pkg.dev/obs-plugin-voice-storage/has-default/has-default
 
-gcloud run services add-iam-policy-binding has-jwks-prod --member allUsers --role roles/run.invoker
+gcloud run services add-iam-policy-binding has-jwks-prod \
+  --region asia-northeast1 \
+  --member allUsers \
+  --role roles/run.invoker
