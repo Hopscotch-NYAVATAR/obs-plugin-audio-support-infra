@@ -55,6 +55,7 @@ resource "google_api_gateway_api_config" "default" {
     document {
       path = "spec.yaml"
       contents = base64encode(templatefile("${path.module}/api.yaml.tftpl", {
+        projectID     = var.project_id,
         runDefaultURL = var.run_default_url
       }))
     }

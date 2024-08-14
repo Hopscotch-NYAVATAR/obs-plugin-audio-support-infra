@@ -5,6 +5,14 @@ info:
   version: "0.1.0"
 schemes:
   - "https"
+securityDefinitions:
+  firebase:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "https://securetoken.google.com/${projectID}"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "${projectID}"
 x-google-backend:
   address: "${runDefaultURL}"
 paths:
