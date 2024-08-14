@@ -4,7 +4,7 @@ import { JWTHeader, JWTPayload, signJWT } from "./jwt";
 
 const app = express();
 
-app.post("/issueIndefiniteAccessToken", (_, res) => {
+app.post("/issueIndefiniteAccessToken", async (_, res) => {
   const header = {
     alg: "ES256",
     typ: "JWT",
@@ -12,7 +12,7 @@ app.post("/issueIndefiniteAccessToken", (_, res) => {
 
   const payload = {} satisfies JWTPayload;
 
-  const indefiniteAccessToken = signJWT(header, payload);
+  const indefiniteAccessToken = await signJWT(header, payload);
 
   res.send(indefiniteAccessToken);
 });

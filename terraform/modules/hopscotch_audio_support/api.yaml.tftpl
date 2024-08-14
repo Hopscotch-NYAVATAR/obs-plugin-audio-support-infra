@@ -1,17 +1,17 @@
 swagger: "2.0"
 info:
-  title: "hopscotch-audio-support"
+  title: "has-api"
   description: "Hopscotch Audio Support backend"
   version: "0.1.0"
 schemes:
   - "https"
+x-google-backend:
+  address: "${runDefaultURL}"
 paths:
   "/issueIndefiniteAccessToken":
     post:
       description: "Obtain indefinite access token for OBS"
       operationId: "issueIndefiniteAccessToken"
-      x-google-backend:
-        address: "${runDefaultURL}/issueIndefiniteAccessToken"
       responses:
         200:
           description: "Success"
@@ -20,8 +20,6 @@ paths:
     post:
       description: "Obtain access token for audio recording API"
       operationId: "audioRecordingAccessToken"
-      x-google-backend:
-        address: "${runDefaultURL}/audioRecordingAccessToken"
       responses:
         200:
           description: "Success"
