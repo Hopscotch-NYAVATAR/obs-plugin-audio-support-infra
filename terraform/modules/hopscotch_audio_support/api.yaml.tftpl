@@ -1,17 +1,35 @@
 swagger: "2.0"
 info:
-  title: "hopscotch-audio-support"
+  title: "has-api"
   description: "Hopscotch Audio Support backend"
   version: "0.1.0"
 schemes:
   - "https"
+securityDefinitions:
+  firebase:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "https://securetoken.google.com/${projectID}"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "${projectID}"
+x-google-backend:
+  address: "${runDefaultURL}"
 paths:
+  "/issueIndefiniteAccessToken":
+    post:
+      description: "Obtain indefinite access token for OBS"
+      operationId: "issueIndefiniteAccessToken"
+      security:
+        - firebase: []
+      responses:
+        200:
+          description: "Success"
+
   "/audioRecordingAccessToken":
     post:
       description: "Obtain access token for audio recording API"
       operationId: "audioRecordingAccessToken"
-      x-google-backend:
-        address: "${runDefaultURL}/audioRecordingAccessToken"
       responses:
         200:
           description: "Success"

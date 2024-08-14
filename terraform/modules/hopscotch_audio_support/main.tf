@@ -47,14 +47,15 @@ resource "google_api_gateway_api" "default" {
 }
 
 resource "google_api_gateway_api_config" "default" {
-  provider      = google-beta
-  api           = google_api_gateway_api.default.api_id
-  api_config_id = "${var.short_name}-config"
+  provider             = google-beta
+  api                  = google_api_gateway_api.default.api_id
+  api_config_id_prefix = "${var.short_name}-config"
 
   openapi_documents {
     document {
       path = "spec.yaml"
       contents = base64encode(templatefile("${path.module}/api.yaml.tftpl", {
+        projectID     = var.project_id,
         runDefaultURL = var.run_default_url
       }))
     }
@@ -104,4 +105,39 @@ resource "google_artifact_registry_repository" "default" {
   repository_id = "${var.short_name}-default"
   description   = "Default repository for Docker image"
   format        = "DOCKER"
+}
+
+resource "google_project_service" "cloudkms" {
+  service = "cloudkms.googleapis.com"
+}
+
+resource "google_kms_key_ring" "default" {
+  name     = "${var.short_name}-default"
+  location = "global"
+
+  depends_on = [
+    google_project_service.cloudkms
+  ]
+}
+
+resource "google_kms_crypto_key" "indefinite_key_signing_20240814" {
+  name     = "${var.short_name}-indefinite-key-signing-20240814"
+  key_ring = google_kms_key_ring.default.id
+  purpose  = "ASYMMETRIC_SIGN"
+  version_template {
+    algorithm = "EC_SIGN_P256_SHA256"
+  }
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "google_service_account" "run" {
+  account_id = "${var.short_name}-run"
+}
+
+resource "google_kms_crypto_key_iam_member" "run_indefinite_key_signing_20240814" {
+  crypto_key_id = google_kms_crypto_key.indefinite_key_signing_20240814.id
+  role          = "roles/cloudkms.signer"
+  member        = "serviceAccount:${google_service_account.run.email}"
 }
