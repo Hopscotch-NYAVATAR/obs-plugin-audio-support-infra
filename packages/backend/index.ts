@@ -29,6 +29,7 @@ app.post('/indefiniteAccessToken/issue', cors(), async (req, res) => {
 		throw new Error('Authorization info is invalid!');
 	}
 
+  console.log(userInfo)
 	const payloadBytes = decodeBase64URL(userInfo);
 	const payload = JSON.parse(payloadBytes.toString('utf-8'));
 
