@@ -58,9 +58,9 @@ app.post('/audioRecord/uploadDestination/batchIssue', async (req, res) => {
 	const sub = payload.sub;
 
   const start = Number(req.query['start']);
-  const count = Number(req.query['start']);
+  const count = Number(req.query['count']);
 
-  if (start < 0 || start >= 1000000 || count >= 100) {
+  if (isNaN(start) || isNaN(count) || start < 0 || start >= 1000000 || count >= 100) {
     res.status(400).send({
       error: "Bad request"
     });
