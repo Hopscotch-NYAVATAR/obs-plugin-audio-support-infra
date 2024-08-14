@@ -3,8 +3,8 @@ import { createPublicKey } from 'node:crypto';
 import express from 'express';
 import { KeyManagementServiceClient } from '@google-cloud/kms';
 
-import { readFromEnv } from './env.js';
-import { calculateCRC32C } from './jwt.js';
+import { readFromEnv } from './lib/env.js';
+import { calculateCRC32C } from './lib/jwt.js';
 
 const jwksVersionNames = readFromEnv('IAT_JWKS_KMS_VERSION_NAMES').split(' ');
 

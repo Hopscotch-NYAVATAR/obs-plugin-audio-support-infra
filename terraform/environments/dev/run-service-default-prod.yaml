@@ -16,4 +16,6 @@ spec:
               value: 'https://obs-plugin-voice-storage.firebaseapp.com http://localhost:5173'
             - name: 'AR_BUCKET_NAME'
               value: 'audiorecord-obs-plugin-voice-storage'
+            - name: 'BASE_URL'
+              value: 'https://has-3jd67qj8.an.gateway.dev'
       serviceAccountName: 'has-run@obs-plugin-voice-storage.iam.gserviceaccount.com'
