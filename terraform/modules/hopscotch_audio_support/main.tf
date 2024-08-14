@@ -93,7 +93,7 @@ resource "google_clouddeploy_target" "default_prod" {
 
 resource "google_clouddeploy_delivery_pipeline" "default" {
   location = var.region
-  name = var.short_name
+  name = "${var.short_name}-default"
   serial_pipeline {
     stages {
       target_id = google_clouddeploy_target.default_prod.name
