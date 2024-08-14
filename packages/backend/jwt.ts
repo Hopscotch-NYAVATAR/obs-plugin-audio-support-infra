@@ -55,7 +55,7 @@ export interface JWTHeader {
 export interface JWTPayload {
 }
 
-export async function signJWT(header: JWTHeader, payload: JWTPayload): string {
+export async function signJWT(header: JWTHeader, payload: JWTPayload): Promise<string> {
   const client = new KeyManagementServiceClient();
 
   const headerBytes = Buffer.from(JSON.stringify(header));
