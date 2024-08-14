@@ -7,3 +7,6 @@ spec:
     spec:
       containers:
         - image: "has-default"
+          env:
+            - name: "JWT_KMS_VERSION_NAME"
+              value: "projects/obs-plugin-voice-storage/locations/global/keyRings/has-default/cryptoKeys/has-indefinite-key-signing-20240814/cryptoKeyVersions/1"
