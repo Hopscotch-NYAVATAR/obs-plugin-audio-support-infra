@@ -7,9 +7,11 @@ profiles:
     manifests:
       rawYaml:
         - 'run-service-default-prod.yaml'
+    deploy:
+      cloudrun: {}
   - name: 'has-jwks-prod'
     manifests:
       rawYaml:
         - 'run-service-jwks-prod.yaml'
-deploy:
-  cloudrun: {}
+    deploy:
+      cloudrun: {}
