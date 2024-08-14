@@ -6,13 +6,15 @@ import { readFromEnv } from './lib/env.js';
 import { registerAudioRecordUploadDestinationBatchIssue } from './handlers/audioRecord/uploadDestinationBatchIssue.js';
 import { registerIndefiniteAccessTokenExchange } from './handlers/indefiniteAccessToken/exchange.js';
 import { registerIndefiniteAccessTokenIssue } from './handlers/indefiniteAccessToken/issue.js';
+import { initializeApp } from 'firebase-admin';
 
 const origin = readFromEnv('CORS_ORIGINS').split(' ');
 const BASE_URL = readFromEnv('BASE_URL');
 const AR_BUCKET_NAME = readFromEnv('AR_BUCKET_NAME');
 
 const app = express();
-const auth = getAuth();
+const firebaseApp = initializeApp();
+const auth = getAuth(firebaseApp);
 const storage = new Storage();
 
 registerIndefiniteAccessTokenIssue(app, BASE_URL, origin);
