@@ -43,6 +43,8 @@ paths:
     post:
       description: "Obtain access token for audio recording API"
       operationId: "audioRecordingAccessToken"
+      security:
+        - indefiniteAccessToken: []
       responses:
         200:
           description: "Success"
