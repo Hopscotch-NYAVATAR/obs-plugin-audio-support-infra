@@ -27,7 +27,7 @@ x-google-backend:
 paths:
   '/indefiniteAccessToken/issue':
     post:
-      description: 'Obtain indefinite access token for OBS'
+      description: 'Issue indefinite access token'
       operationId: 'issueIndefiniteAccessToken'
       security:
         - firebase: []
@@ -54,6 +54,23 @@ paths:
       responses:
         '204':
           description: 'No Content'
+  
+  '/indefiniteAccessToken/exchange':
+    post:
+      description: 'Exchange indefinite access token with custom token'
+      operationId: 'issueIndefiniteAccessToken'
+      security:
+        - indefiniteAccessToken: []
+      responses:
+        '200':
+          description: 'OK'
+          schema:
+            type: 'object'
+            properties:
+              customToken:
+                type: 'string'
+        '401':
+          description: 'Unauthorized'
 
   '/audioRecordingAccessToken':
     post:
