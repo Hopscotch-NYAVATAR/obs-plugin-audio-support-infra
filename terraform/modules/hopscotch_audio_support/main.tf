@@ -116,10 +116,14 @@ resource "google_clouddeploy_target" "prod" {
 
 resource "google_clouddeploy_delivery_pipeline" "default" {
   location = var.region
-  name = "${var.short_name}-default"
+  name = var.short_name
   serial_pipeline {
     stages {
       target_id = google_clouddeploy_target.prod.name
+      profiles = [
+        "has-default-prod",
+        "has-jwks-prod",
+      ]
     }
   }
 }
