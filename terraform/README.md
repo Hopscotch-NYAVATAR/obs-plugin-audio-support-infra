@@ -35,14 +35,3 @@ terraform apply tfplan
 ## OAuth brand screen
 
 https://console.cloud.google.com/apis/credentials/consent?hl=ja&project=obs-plugin-voice-storage
-
-## Cloud Deploy
-
-```
-gcloud deploy releases create \
-  test-release-003 \
-  --project=$PROJECT_ID \
-  --region=$REGION \
-  --delivery-pipeline=has-default \
-  --images=has-default=tbd
-```

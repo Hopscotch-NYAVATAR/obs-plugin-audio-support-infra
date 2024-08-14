@@ -55,7 +55,7 @@ resource "google_api_gateway_api_config" "default" {
     document {
       path = "spec.yaml"
       contents = base64encode(templatefile("${path.module}/api.yaml.tftpl", {
-        audioRecordingAccessTokenBackend = "https://example.com"
+        runDefaultURL = var.run_default_url
       }))
     }
   }
@@ -97,4 +97,11 @@ resource "google_clouddeploy_delivery_pipeline" "default" {
       target_id = google_clouddeploy_target.default_prod.name
     }
   }
+}
+
+resource "google_artifact_registry_repository" "default" {
+  location      = var.region
+  repository_id = "${var.short_name}-default"
+  description   = "Default repository for Docker image"
+  format        = "DOCKER"
 }
