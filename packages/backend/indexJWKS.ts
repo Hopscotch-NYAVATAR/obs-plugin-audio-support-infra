@@ -1,7 +1,7 @@
 import { createPublicKey } from 'node:crypto';
 
 import express from 'express';
-import { KeyManagementServiceClient } from '@google-cloud/kms'
+import { KeyManagementServiceClient } from '@google-cloud/kms';
 
 import { readFromEnv } from './env.js';
 import { calculateCRC32C } from './jwt.js';
