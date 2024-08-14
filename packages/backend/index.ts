@@ -36,6 +36,17 @@ app.post('/indefiniteAccessToken/issue', cors(), async (req, res) => {
 	res.send(indefiniteAccessToken);
 });
 
+// import { Storage } from "@google-cloud/storage";
+
+// app.post('/audioRecord/uploadDestination/batchIssue', async () => {
+//   const storage = new Storage();
+//   const [url] = await storage.bucket("a").file("name").getSignedUrl({
+//     version: 'v4',
+//     action: 'write',
+//     expires: Date.now() + 60 * 60 * 1000
+//   })
+// });
+
 app.post('/audioRecordingAccessToken', (_, res) => {
 	res.send('{}');
 });
