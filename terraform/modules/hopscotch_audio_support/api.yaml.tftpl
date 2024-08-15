@@ -61,6 +61,10 @@ paths:
       operationId: 'indefiniteAccessTokenExchange'
       security:
         - indefiniteAccessToken: []
+      parameters:
+        - in: 'query'
+          name: 'key'
+          type: 'string'
       responses:
         '200':
           description: 'OK'
@@ -69,6 +73,9 @@ paths:
             properties:
               customToken:
                 type: 'string'
+              signInWithCustomTokenEndpoint:
+                type: 'string'
+                format: 'url'
         '401':
           description: 'Unauthorized'
 

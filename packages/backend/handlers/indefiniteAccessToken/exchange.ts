@@ -13,9 +13,17 @@ export function registerIndefiniteAccessTokenExchange(app: Application, auth: Au
 
 		const { sub } = claims;
 
+		if (typeof req.query['key'] !== 'string') {
+			res.status(400);
+			throw new Error('Query key is malformed!');
+		}
+
+		const { key } = req.query;
+
 		const customToken = await auth.createCustomToken(sub);
 		res.send({
-			customToken
+			customToken,
+			signInWithCustomTokenEndpoint: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${key}`
 		});
 	});
 }
