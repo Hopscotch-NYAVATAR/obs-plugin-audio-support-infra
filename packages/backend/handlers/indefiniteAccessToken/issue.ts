@@ -4,7 +4,7 @@ import cors from 'cors';
 import { decodeUserInfo, isJWTClaims } from '../../lib/jwtclaims.js';
 import { generateIndefiniteAccessToken } from '../../lib/indefiniteAccessToken.js';
 
-export function registerIndefiniteAccessTokenIssue(
+export function registerIssueIndefiniteAccessToken(
 	app: Application,
 	baseURL: string,
 	origin: string[]
@@ -32,9 +32,7 @@ export function registerIndefiniteAccessTokenIssue(
 
 		res.send({
 			indefiniteAccessToken,
-			endpoints: {
-				indefiniteAccessTokenExchange: `${baseURL}/indefiniteAccessToken/exchange`
-			}
+			exchangeIndefiniteAccessTokenEndpoint: `${baseURL}/indefiniteAccessToken/exchange`
 		});
 	});
 }

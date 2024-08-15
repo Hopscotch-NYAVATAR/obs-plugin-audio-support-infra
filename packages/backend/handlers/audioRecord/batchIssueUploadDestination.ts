@@ -1,13 +1,13 @@
-import { type Application } from 'express';
+import express, { type Application } from 'express';
 import { decodeUserInfo, isJWTClaims } from '../../lib/jwtclaims.js';
 import { Storage } from '@google-cloud/storage';
 
-export function registerAudioRecordUploadDestinationBatchIssue(
+export function registerBatchIssueAudioRecordUploadDestination(
 	app: Application,
 	storage: Storage,
 	audioRecordBucketName: string
 ): void {
-	app.post('/audioRecord/uploadDestinationBatchIssue', async (req, res) => {
+	app.post('/audioRecord/batchIssueUploadDestination', express.urlencoded(), async (req, res) => {
 		const claims = decodeUserInfo(req);
 
 		if (!isJWTClaims(claims)) {
@@ -17,48 +17,48 @@ export function registerAudioRecordUploadDestinationBatchIssue(
 
 		const { sub } = claims;
 
-		if (typeof req.query['start'] !== 'string') {
+		if (typeof req.body['start'] !== 'string') {
 			res.status(400);
 			throw new Error('Query start is malformed!');
 		}
 
-		const start = parseInt(req.query['start'], 10);
+		const start = parseInt(req.body['start'], 10);
 
 		if (start < 0 || start >= 990000) {
 			res.status(400);
 			throw new Error('Query start is out of range!');
 		}
 
-		if (typeof req.query['count'] !== 'string') {
+		if (typeof req.body['count'] !== 'string') {
 			res.status(400);
 			throw new Error('Query count is malformed!');
 		}
 
-		const count = parseInt(req.query['count'], 10);
+		const count = parseInt(req.body['count'], 10);
 
 		if (count < 0 || count > 50) {
 			res.status(400);
 			throw new Error('Query count is out of range!');
 		}
 
-		if (typeof req.query['prefix'] !== 'string') {
+		if (typeof req.body['prefix'] !== 'string') {
 			res.status(400);
 			throw new Error('Query prefix is malformed!');
 		}
 
-		const { prefix } = req.query;
+		const { prefix } = req.body;
 
 		if (!/^[-_a-zA-Z0-9]+$/.test(prefix)) {
 			res.status(400);
 			throw new Error('Query prefix contains invalid character!');
 		}
 
-		if (typeof req.query['ext'] !== 'string') {
+		if (typeof req.body['ext'] !== 'string') {
 			res.status(400);
 			throw new Error('Query ext is malforded!');
 		}
 
-		const { ext } = req.query;
+		const { ext } = req.body;
 
 		const destinations = [];
 		for (let i = 0; i < count; i++) {

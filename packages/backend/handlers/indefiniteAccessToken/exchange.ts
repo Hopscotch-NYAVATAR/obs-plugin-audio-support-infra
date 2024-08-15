@@ -2,7 +2,11 @@ import { type Application } from 'express';
 import { type Auth } from 'firebase-admin/auth';
 import { decodeUserInfo, isJWTClaims } from '../../lib/jwtclaims.js';
 
-export function registerIndefiniteAccessTokenExchange(app: Application, auth: Auth): void {
+export function registerExchangeIndefiniteAccessToken(
+	app: Application,
+	auth: Auth,
+	baseURL: string
+): void {
 	app.post('/indefiniteAccessToken/exchange', async (req, res) => {
 		const claims = decodeUserInfo(req);
 
@@ -22,6 +26,7 @@ export function registerIndefiniteAccessTokenExchange(app: Application, auth: Au
 
 		const customToken = await auth.createCustomToken(sub);
 		res.send({
+			batchIssueAudioRecordUploadDestinationEndpoint: `${baseURL}/audioRecord/batchIssueUploadDestination`,
 			customToken,
 			signInWithCustomTokenEndpoint: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${key}`,
 			refreshTokenEndpoint: `https://securetoken.googleapis.com/v1/token?key=${key}`
