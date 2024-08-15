@@ -58,7 +58,7 @@ export function registerBatchIssueAudioRecordUploadDestination(
 			throw new Error('Query ext is malforded!');
 		}
 
-		const { ext } = req.query;
+		const { ext } = req.body;
 
 		const destinations = [];
 		for (let i = 0; i < count; i++) {
