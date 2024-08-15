@@ -23,7 +23,8 @@ export function registerIndefiniteAccessTokenExchange(app: Application, auth: Au
 		const customToken = await auth.createCustomToken(sub);
 		res.send({
 			customToken,
-			signInWithCustomTokenEndpoint: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${key}`
+			signInWithCustomTokenEndpoint: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${key}`,
+			refreshTokenEndpoint: `https://securetoken.googleapis.com/v1/token?key=${key}`
 		});
 	});
 }
