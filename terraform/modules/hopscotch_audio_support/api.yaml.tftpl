@@ -39,18 +39,17 @@ paths:
             properties:
               indefiniteAccessToken:
                 type: 'string'
-              endpoints:
-                type: 'object'
-                properties:
-                  indefiniteAccessTokenExchange:
-                    type: 'string'
-                    format: 'url'
+                description: 'Access token that endures for a long time'
+              exchangeIndefiniteAccessTokenEndpoint:
+                type: 'string'
+                format: 'url'
+                description: 'URL for /indefiniteAccessToken/exchange'
         '401':
           description: 'Unauthorized'
 
     options:
       description: 'Preflight'
-      operationId: 'indefiniteAccessTokenIssuePreflight'
+      operationId: 'issueIndefiniteAccessTokenIssuePreflight'
       responses:
         '204':
           description: 'No Content'
@@ -58,43 +57,66 @@ paths:
   '/indefiniteAccessToken/exchange':
     post:
       description: 'Exchange indefinite access token with custom token'
-      operationId: 'indefiniteAccessTokenExchange'
+      operationId: 'exchangeIndefiniteAccessToken'
       security:
         - indefiniteAccessToken: []
       parameters:
         - in: 'query'
           name: 'key'
           type: 'string'
+          required: true
+          description: 'API key for Firebase'
       responses:
         '200':
           description: 'OK'
           schema:
             type: 'object'
             properties:
+              batchIssueAudioRecordUploadDestinationEndpoint:
+                type: 'string'
+                format: 'url'
+                description: 'URL for /audioRecord/batchIssueUploadDestination'
               customToken:
                 type: 'string'
+                description: 'Custom token that can be exchanged with id token and refresh token'
               signInWithCustomTokenEndpoint:
                 type: 'string'
                 format: 'url'
+                description: 'URL for signing in with custom token on Google Cloud'
               refreshTokenEndpoint:
                 type: 'string'
                 format: 'url'
+                description: 'URL for refreshing id token on Google Cloud'
         '401':
           description: 'Unauthorized'
 
-  '/audioRecord/uploadDestination/batchIssue':
+  '/audioRecord/batchIssueUploadDestination':
     post:
       description: 'Obtain upload URLs at batch'
-      operationId: 'audioRecordUploadDestinationBatchIssue'
+      operationId: 'batchIssueAudioRecordUploadDestination'
       security:
         - firebase: []
       parameters:
-        - in: 'query'
+        - in: 'formData'
           name: 'start'
           type: 'integer'
-        - in: 'query'
+          required: true
+          description: 'Start index of audio record destinations'
+        - in: 'formData'
           name: 'count'
           type: 'integer'
+          required: true
+          description: 'Count of audio record destinations'
+        - in: 'formData'
+          name: 'prefix'
+          type: 'string'
+          required: true
+          description: 'Prefix of audio record destinations'
+        - in: 'formData'
+          name: 'ext'
+          type: 'string'
+          required: true
+          description: 'File extension of audio record destinations'
       responses:
         200:
           description: 'Success'
