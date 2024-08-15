@@ -2,12 +2,12 @@ import { type Application } from 'express';
 import { decodeUserInfo, isJWTClaims } from '../../lib/jwtclaims.js';
 import { Storage } from '@google-cloud/storage';
 
-export function registerAudioRecordUploadDestinationBatchIssue(
+export function registerBatchIssueAudioRecordUploadDestination(
 	app: Application,
 	storage: Storage,
 	audioRecordBucketName: string
 ): void {
-	app.post('/audioRecord/uploadDestinationBatchIssue', async (req, res) => {
+	app.post('/audioRecord/batchIssueUploadDestination', async (req, res) => {
 		const claims = decodeUserInfo(req);
 
 		if (!isJWTClaims(claims)) {
