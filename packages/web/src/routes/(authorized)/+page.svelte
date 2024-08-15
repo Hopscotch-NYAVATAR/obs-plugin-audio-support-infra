@@ -30,7 +30,7 @@
 			throw new Error('Error!');
 		}
 		const json = await response.json();
-		obsURL = `${json.endpoints.indefiniteAccessTokenExchange}?token=${json.indefiniteAccessToken}`;
+		obsURL = `${json.endpoints.indefiniteAccessTokenExchange}?key=${firebaseConfig.apiKey}#${json.indefiniteAccessToken}`;
 	}
 </script>
 
