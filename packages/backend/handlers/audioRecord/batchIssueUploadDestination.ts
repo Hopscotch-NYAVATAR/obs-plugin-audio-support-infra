@@ -36,7 +36,7 @@ export function registerBatchIssueAudioRecordUploadDestination(
 
 		const count = parseInt(req.body['count'], 10);
 
-		if (count < 0 || count > 50) {
+		if (count < 0 || count > 500) {
 			res.status(400);
 			throw new Error('Query count is out of range!');
 		}
